@@ -248,7 +248,7 @@ class App extends React.Component {
             <Button color="warning" onClick={this.handleClick} id="update">Update</Button>{" "}
             <Button color="danger" onClick={this.handleClick} id="delete">Delete</Button>{" "}
             <Button color="secondary" alert="apakah kamu yakin ?" onClick={this.handleClick} id="debug">Debug</Button>{" "}
-            <Button color="light" href="https://condescending-kirch-93f89b.netlify.app/">Deploy</Button>{" "}
+            <Button color="light" href="https://unruffled-saha-7ddbac.netlify.app/">Deploy</Button>{" "}
             </CardBody>
         <CardFooter>
             {"Message: " + state["errorMsg"]}
