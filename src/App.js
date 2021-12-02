@@ -12,20 +12,30 @@ import {
     } 
     from 'reactstrap';
 import './App.css';
+import SimpleReactValidator from 'simple-react-validator';
+
 
 class App extends React.Component {
   // ######################### initialzation ###########################
   constructor(props) {
     super(props);
     this.state = {
+        fields:{
         "key": "",
         "firstName": "",
         "lastName": "",
         "httpStatus": 0,
-        "errorMsg": ""
-        };
+        "errorMsg": ""},
+    errors:{
+        "key": "",
+        "firstName": "",
+        "lastName": "",
+        "httpStatus": 0,
+        "errorMsg": ""},
+    };
     this.handleClick = this.handleClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.validator = new SimpleReactValidator();
   }
 
   // ######################### input handler ###########################
@@ -212,35 +222,40 @@ class App extends React.Component {
   render() {
     const state = this.state;
     return (
-    <Row> <Col sm={{ size: 6, offset: 3 }}> <Card className='mt-5'>
-        <CardHeader tag="h3">API Test</CardHeader>
 
-        <CardBody>
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">Key:</InputGroupAddon>
-            <Input value={state["key"]} onChange={this.handleChange} id="key"/>
-          </InputGroup> <br />
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">First Name: </InputGroupAddon>
-            <Input value={state["firstName"]} onChange={this.handleChange} id="firstName"/>
-          </InputGroup> <br />
-          <InputGroup>
-            <InputGroupAddon addonType="prepend">Last Name: </InputGroupAddon>
-            <Input value={state["lastName"]} onChange={this.handleChange} id="lastName"/>
-          </InputGroup> <br />
-          <Button color="success" onClick={this.handleClick} id="create">Create</Button>{" "}
-          <Button color="primary" onClick={this.handleClick} id="read">Read</Button>{" "}
-          <Button color="warning" onClick={this.handleClick} id="update">Update</Button>{" "}
-          <Button color="danger" onClick={this.handleClick} id="delete">Delete</Button>{" "}
-          <Button color="secondary" onClick={this.handleClick} id="debug">Debug</Button>{" "}
-            <Button color="info" onClick={this.handleClick} id="clear">Improve</Button>{" "}"
-        </CardBody>
-      <CardFooter> 
-        {"Message: " + state["errorMsg"]}
-      </CardFooter>
-    </Card> </Col> </Row>
-    )
-  }
+
+        <Row> <Col sm={{ size: 6, offset: 3 }}> <Card className='mt-5'>
+            <CardHeader tag="h3">API Test</CardHeader>
+
+            <CardBody>
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">Key:</InputGroupAddon>
+                <Input className="form-control" title="cannot be empty" placeholder="input key" value={state["key"]} onChange={this.handleChange} id="key"/>
+                {this.validator.message('key', state["key"], 'required|alpha')}
+            </InputGroup> <br />
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">First Name: </InputGroupAddon>
+                <Input title="input must be string" placeholder="input First Name" value={state["firstName"]} onChange={this.handleChange} id="firstName"/>
+                {this.validator.message('firstName', state["firstName"], 'required|alpha|min:3')}
+            </InputGroup> <br />
+            <InputGroup>
+                <InputGroupAddon addonType="prepend">Last Name: </InputGroupAddon>
+                <Input  title="input must be string" placeholder="input Last Name" value={state["lastName"]} onChange={this.handleChange} id="lastName"/>
+                {this.validator.message('lastName', state["lastName"], 'required|string|min:3')}
+            </InputGroup> <br />
+            <Button color="success" onClick={this.handleClick} id="create">Create</Button>{" "}
+            <Button color="primary" onClick={this.handleClick} id="read">Read</Button>{" "}
+            <Button color="warning" onClick={this.handleClick} id="update">Update</Button>{" "}
+            <Button color="danger" onClick={this.handleClick} id="delete">Delete</Button>{" "}
+            <Button color="secondary" alert="apakah kamu yakin ?" onClick={this.handleClick} id="debug">Debug</Button>{" "}
+            <Button color="light" href="https://condescending-kirch-93f89b.netlify.app/">Deploy</Button>{" "}
+            </CardBody>
+        <CardFooter>
+            {"Message: " + state["errorMsg"]}
+        </CardFooter>
+        </Card> </Col> </Row>
+        )
+    }
 }
 
 export default App;
